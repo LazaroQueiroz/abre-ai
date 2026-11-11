@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>7 meses, 7 fases 🌸</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --creme: #fbf1e4;
+    --creme-2: #f4e2cd;
+    --marrom: #5b3a29;
+    --marrom-escuro: #38221a;
+    --marrom-claro: #a47a5e;
+    --rosa: #e37b9d;
+    --rosa-claro: #fbdbe5;
+    --amarelo: #f6c445;
+    --roxo: #8a66bd;
+    --branco: #fffaf4;
+    --sombra: 0 10px 30px rgba(56, 34, 26, .16);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    font-family: "Nunito", system-ui, sans-serif;
+    color: var(--marrom-escuro);
+    background:
+      radial-gradient(circle at 12% 18%, rgba(227,123,157,.20) 0 120px, transparent 121px),
+      radial-gradient(circle at 88% 12%, rgba(246,196,69,.25) 0 90px, transparent 91px),
+      radial-gradient(circle at 85% 88%, rgba(138,102,189,.16) 0 140px, transparent 141px),
+      radial-gradient(circle at 8% 85%, rgba(164,122,94,.20) 0 100px, transparent 101px),
+      var(--creme);
+    background-attachment: fixed;
+    font-size: 18px;
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, .btn, .fase-tag { font-family: "Fredoka", "Nunito", sans-serif; }
+  h1 { font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.1; margin: 0 0 .4em; color: var(--marrom); }
+  h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.15; margin: 0 0 .4em; color: var(--marrom); }
+  p { margin: 0 0 1em; }
+
+  /* topo: progresso */
+  .topo {
+    position: fixed; inset: 0 0 auto 0; z-index: 20;
+    display: flex; justify-content: center; align-items: center; gap: 10px;
+    padding: 14px 16px;
+    opacity: 0; pointer-events: none; transition: opacity .5s;
+  }
+  .topo.visivel { opacity: 1; }
+  .flor { font-size: 1.35rem; filter: grayscale(1); opacity: .35; transition: all .4s; }
+  .flor.feita { filter: none; opacity: 1; transform: scale(1.15); }
+  .flor.atual { filter: none; opacity: 1; transform: scale(1.45) rotate(-8deg); }
+
+  .som {
+    position: fixed; right: 16px; bottom: 16px; z-index: 30;
+    width: 52px; height: 52px; border-radius: 50%; border: 0; cursor: pointer;
+    background: var(--marrom); color: var(--branco); font-size: 1.4rem;
+    box-shadow: var(--sombra); display: none;
+  }
+  .som.disponivel { display: block; }
+
+  /* telas */
+  .tela {
+    display: none; min-height: 100vh; min-height: 100dvh;
+    padding: 76px 16px 90px;
+    align-items: center; justify-content: center;
+  }
+  .tela.ativa { display: flex; animation: entrar .6s ease both; }
+  @keyframes entrar { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+  .cartao {
+    width: 100%; max-width: 720px;
+    background: var(--branco);
+    border: 3px solid var(--marrom);
+    border-radius: 28px;
+    box-shadow: 8px 8px 0 var(--marrom);
+    padding: clamp(22px, 5vw, 44px);
+    text-align: center;
+  }
+  .fase-tag {
+    display: inline-block; background: var(--amarelo); color: var(--marrom-escuro);
+    border: 2px solid var(--marrom); border-radius: 999px;
+    padding: 2px 16px; font-size: .95rem; font-weight: 600; margin-bottom: 14px;
+  }
+  .sub { color: var(--marrom-claro); font-weight: 600; }
+  .btn {
+    display: inline-block; cursor: pointer;
+    font-size: 1.15rem; font-weight: 600;
+    background: var(--rosa); color: #fff;
+    border: 3px solid var(--marrom); border-radius: 999px;
+    padding: 12px 28px; margin-top: 10px;
+    box-shadow: 4px 4px 0 var(--marrom);
+    transition: transform .12s, box-shadow .12s;
+  }
+  .btn:hover { transform: translate(-1px, -1px); box-shadow: 6px 6px 0 var(--marrom); }
+  .btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--marrom); }
+  .btn.marrom { background: var(--marrom); }
+  .btn.claro { background: var(--branco); color: var(--marrom); }
+  .btn:focus-visible, .opcao:focus-visible, .envelope:focus-visible { outline: 4px solid var(--roxo); outline-offset: 3px; }
+  .escondido { display: none !important; }
+
+  /* fase 1: envelope */
+  .envelope {
+    font-size: clamp(6rem, 22vw, 10rem); line-height: 1; background: none; border: 0; cursor: pointer;
+    animation: pulinho 1.6s ease-in-out infinite; display: block; margin: 10px auto;
+  }
+  @keyframes pulinho { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-14px) rotate(3deg); } }
+  .riscado { text-decoration: line-through; text-decoration-thickness: 5px; text-decoration-color: var(--rosa); opacity: .6; }
+  .aparece { animation: entrar .6s ease both; }
+
+  /* fase 2: contador */
+  .contador { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 18px 0 8px; }
+  .contador div {
+    min-width: 0;
+    background: var(--marrom); color: var(--branco); border-radius: 18px; padding: 14px 4px;
+  }
+  .contador b { display: block; font-family: "Fredoka", sans-serif; font-size: clamp(1.4rem, 5vw, 2.4rem); font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .contador span { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; opacity: .85; }
+  .stats { list-style: none; padding: 0; margin: 22px 0 6px; text-align: left; display: grid; gap: 10px; }
+  .stats li {
+    display: flex; gap: 12px; align-items: center; justify-content: space-between;
+    background: var(--creme); border: 2px dashed var(--marrom-claro); border-radius: 16px; padding: 10px 14px;
+  }
+  .stats li span { flex: 1; }
+  .stats li b { font-family: "Fredoka", sans-serif; color: var(--rosa); font-size: 1.15rem; text-align: right; white-space: nowrap; }
+
+  /* fase 3: quiz */
+  .opcoes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0 10px; }
+  .opcao {
+    font: inherit; font-weight: 700; cursor: pointer; text-align: center;
+    background: var(--creme); color: var(--marrom-escuro);
+    border: 3px solid var(--marrom); border-radius: 18px; padding: 14px 10px; min-height: 64px;
+    transition: transform .12s, background .2s;
+  }
+  .opcao:hover { transform: scale(1.03); background: var(--rosa-claro); }
+  .opcao.errada { background: #e9ddd3; color: #9a8577; border-style: dashed; animation: tremer .35s; }
+  .opcao.certa { background: #cdeccb; border-color: #2f6b3a; }
+  @keyframes tremer { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .reacao { min-height: 3.2em; font-weight: 700; color: var(--marrom); }
+  .placar { font-size: .95rem; color: var(--marrom-claro); font-weight: 700; }
+
+  /* fase 4: linha do tempo */
+  .linha { text-align: left; position: relative; margin: 20px 0 10px; padding-left: 46px; }
+  .linha::before { content: ""; position: absolute; left: 14px; top: 6px; bottom: 6px; width: 4px; border-radius: 4px; background: var(--rosa-claro); }
+  .mes { position: relative; margin-bottom: 18px; opacity: 0; transform: translateX(-12px); transition: all .6s; }
+  .mes.visto { opacity: 1; transform: none; }
+  .mes::before {
+    content: attr(data-emoji); position: absolute; left: -46px; top: 0;
+    width: 32px; height: 32px; display: grid; place-items: center; font-size: 1.1rem;
+    background: var(--branco); border: 3px solid var(--marrom); border-radius: 50%;
+  }
+  .mes h3 { margin: 0; font-size: 1.2rem; color: var(--rosa); }
+  .mes p { margin: 2px 0 0; }
+  .mes img { display: block; width: 100%; max-height: 340px; object-fit: cover; border-radius: 16px; border: 3px solid var(--marrom); margin-top: 10px; }
+
+  /* fase 5: motivos */
+  .motivo {
+    min-height: 150px; display: grid; place-items: center;
+    background: var(--rosa-claro); border: 3px solid var(--marrom); border-radius: 22px;
+    padding: 20px; margin: 18px 0 8px;
+    font-family: "Caveat", cursive; font-size: clamp(1.7rem, 5vw, 2.3rem); line-height: 1.2; color: var(--marrom-escuro);
+  }
+  .motivo.troca { animation: pop .4s ease; }
+  @keyframes pop { 0% { transform: scale(.9) rotate(-2deg); opacity: .3; } 100% { transform: none; opacity: 1; } }
+
+  /* fase 6: pergunta */
+  .arena { position: relative; height: 230px; margin-top: 16px; }
+  .arena .btn { position: absolute; margin: 0; white-space: nowrap; }
+  #sim { left: 22%; top: 40%; font-size: 1.4rem; padding: 14px 40px; }
+  #nao { left: 62%; top: 42%; transition: left .18s, top .18s, transform .12s; }
+
+  /* fase 7: carta */
+  .carta {
+    text-align: left; background: #fffdf6;
+    background-image: repeating-linear-gradient(transparent 0 37px, rgba(164,122,94,.25) 37px 38px);
+    border: 2px solid var(--marrom-claro); border-radius: 12px;
+    padding: 22px clamp(16px, 4vw, 34px) 10px; margin: 16px 0;
+    font-family: "Caveat", cursive; font-size: clamp(1.45rem, 3.6vw, 1.75rem); line-height: 38px;
+    transform: rotate(-.6deg); box-shadow: var(--sombra);
+  }
+  .carta p { margin: 0 0 38px; }
+  .carta .claude { font-family: "Nunito", sans-serif; font-size: .95rem; line-height: 1.4; display: inline-block; background: var(--creme-2); border-radius: 12px; padding: 2px 10px; color: var(--marrom); }
+  .carta .assina { text-align: right; font-weight: 700; }
+
+  /* chuva de emojis */
+  .chuva { position: fixed; top: -50px; z-index: 50; pointer-events: none; animation: cair linear forwards; }
+  @keyframes cair { to { transform: translateY(115vh) rotate(540deg); } }
+
+  @media (max-width: 520px) {
+    body { font-size: 17px; }
+    .opcoes { grid-template-columns: 1fr; }
+    .contador { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .contador b { font-size: 1.7rem; }
+    .cartao { box-shadow: 5px 5px 0 var(--marrom); border-radius: 22px; }
+    .tela { padding: 64px 14px 84px; }
+    .arena { height: 260px; }
+    #sim { left: 50%; top: 8%; translate: -50% 0; }
+    #nao { left: 36%; top: 62%; }
+    .btn { padding: 12px 22px; }
+    .stats li { flex-direction: column; align-items: flex-start; gap: 2px; }
+    .stats li b { text-align: left; white-space: normal; }
+    .flor { font-size: 1.1rem; }
+    .topo { gap: 7px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    .chuva { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topo" id="topo" aria-label="Progresso das fases"></nav>
+<button class="som" id="som" aria-label="Ligar ou desligar a música">🔊</button>
+<audio id="musica" preload="auto"></audio>
+
+<!-- FASE 1 -->
+<section class="tela ativa" data-fase="1">
+  <div class="cartao">
+    <div id="fechado">
+      <p class="sub">Entrega especial para Flozinha 🌸</p>
+      <button class="envelope" id="envelope" aria-label="Abrir o envelope">💌</button>
+      <p><b>Clica no envelope, gatona.</b></p>
+    </div>
+    <div id="aberto" class="escondido">
+      <h1 id="titulo-seis">Feliz 6 meses! 🎉</h1>
+      <div id="correcao" class="escondido aparece">
+        <p class="sub">…brincadeira. Dessa vez quem faz a piada sou eu.</p>
+        <h1>Feliz <span style="color:var(--rosa)">7</span> meses, minha princesa! 🍍</h1>
+        <p>Preparei 7 fases, uma para cada mês. Tem contador, tem prova (vale nota), tem lembrança e tem uma pergunta muito séria no final.</p>
+        <button class="btn" data-proxima>Bora, moço! →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FASE 2 -->
+<section class="tela" data-fase="2">
+  <div class="cartao">
+    <span class="fase-tag">Fase 2 de 7 · Os números</span>
+    <h2>Estamos juntos há exatamente…</h2>
+    <div class="contador" aria-live="off">
+      <div><b id="c-dias">0</b><span>dias</span></div>
+      <div><b id="c-horas">0</b><span>horas</span></div>
+      <div><b id="c-min">0</b><span>min</span></div>
+      <div><b id="c-seg">0</b><span>seg</span></div>
+    </div>
+    <p class="sub">Desde 11 de abril de 2026, mais ou menos às 18h. E contando.</p>
+    <ul class="stats" id="stats"></ul>
+    <p class="sub">* Dados auditados pelo Instituto Pepito de Estatística.</p>
+    <button class="btn" data-proxima>Próxima fase →</button>
+  </div>
+</section>
+
+<!-- FASE 3 -->
+<section class="tela" data-fase="3">
+  <div class="cartao">
+    <span class="fase-tag">Fase 3 de 7 · A prova</span>
+    <div id="quiz">
+      <p class="placar" id="q-placar"></p>
+      <h2 id="q-pergunta"></h2>
+      <div class="opcoes" id="q-opcoes"></div>
+      <p class="reacao" id="q-reacao" aria-live="polite"></p>
+      <button class="btn escondido" id="q-seguinte">Próxima pergunta →</button>
+    </div>
+    <div id="quiz-fim" class="escondido aparece">
+      <h2>Aprovada com louvor! 🎓</h2>
+      <p id="quiz-nota"></p>
+      <p>Diploma de <b>Namorada Oficial de Pepito</b> renovado por tempo indeterminado.</p>
+      <button class="btn" data-proxima>Próxima fase →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FASE 4 -->
+<section class="tela" data-fase="4">
+  <div class="cartao">
+    <span class="fase-tag">Fase 4 de 7 · Nossa história</span>
+    <h2>De abril até aqui</h2>
+    <p class="sub">Um resumo dos nossos meses (com a memória que eu tenho).</p>
+    <div class="linha" id="linha"></div>
+    <button class="btn" data-proxima>Próxima fase →</button>
+  </div>
+</section>
+
+<!-- FASE 5 -->
+<section class="tela" data-fase="5">
+  <div class="cartao">
+    <span class="fase-tag">Fase 5 de 7 · Os motivos</span>
+    <h2>Por que eu te amo?</h2>
+    <p class="sub">Aperta o botão. Cada clique é um motivo.</p>
+    <div class="motivo" id="motivo" aria-live="polite">🌸</div>
+    <p class="placar" id="m-conta"></p>
+    <button class="btn marrom" id="m-botao">Me dá um motivo 💘</button>
+    <div><button class="btn escondido" id="m-proxima" data-proxima>Próxima fase →</button></div>
+  </div>
+</section>
+
+<!-- FASE 6 -->
+<section class="tela" data-fase="6">
+  <div class="cartao">
+    <span class="fase-tag">Fase 6 de 7 · A pergunta</span>
+    <h2>Flozinha, você aceita continuar namorando comigo?</h2>
+    <p class="sub" id="p-dica">Pensa com calma. Sem pressão nenhuma.</p>
+    <div class="arena" id="arena">
+      <button class="btn" id="sim">Sim! 💖</button>
+      <button class="btn claro" id="nao">Não</button>
+    </div>
+  </div>
+</section>
+
+<!-- FASE 7 -->
+<section class="tela" data-fase="7">
+  <div class="cartao">
+    <span class="fase-tag">Fase 7 de 7 · A carta</span>
+    <h2>Eu sabia que você ia dizer sim 🥹</h2>
+    <div class="carta">
+      <p>Oi, Flozinha.</p>
+      <p>Não, não esqueci de fazer algo para nós dois hoje. Eu e meu fiel amigo Claude (diga oi, Claude) <span class="claude">🤖 oi, Flozinha! 👋</span> trabalhamos juntos para te entregar essa aplicação, que espero muito que tenha feito você rir, se emocionar e lembrar o quão importante você é para mim.</p>
+      <p>Saiba que eu quero que nossa relação perdure por muito mais tempo, até o fim das nossas vidas, porque amo viver com você, amo nossos momentinhos (kkkkkkk).</p>
+      <p>Enfim, te amo muito! Você me faz muito feliz.</p>
+      <p class="assina">Do seu Pepito 🌸</p>
+    </div>
+    <p><b>Feliz 7 meses, minha flor.</b> <span class="sub">(Mês que vem tem "feliz 6 meses" de novo, eu sei.)</span></p>
+    <button class="btn" id="festa">Mais confete 🎉</button>
+    <button class="btn claro" id="denovo">Ver tudo de novo ↺</button>
+  </div>
+</section>
+
+<script>
+/* ===================== CONTEÚDO (edite aqui) ===================== */
+const INICIO = new Date("2026-04-11T18:00:00-03:00");
+
+// {dias} é trocado pelo número de dias de namoro
+const STATS = [
+  ["Vezes que você ficou brava porque eu tava no celular", "∞ (com razão)"],
+  ["Melhores amigos e amigas que você tem", "parei de contar no 47"],
+  ["Manhãs em que você ficou ansiosa pelo café da manhã", "{dias} de {dias}"],
+  ["Horas de sono por noite (você)", "quase zero ☀️"],
+  ["Dancinhas aleatórias do nada", "incontáveis 💃"],
+  ["Vezes que você disse \"iogute\"", "todas"],
+  ["Idas para \"tomar água\"", "sem comentários 💧"],
+  ["Vezes que você me desejou \"feliz 6 meses\"", "7 (e subindo)"],
+  ["Cravos que você me deixou espremer", "0 😔"],
+  ["Temperatura no Piauí quando fui conhecer sua família", "40° na sombra 🥵"],
+];
+
+// certa: índice da resposta correta. erros: reações sorteadas quando ela erra.
+const QUIZ = [
+  { p: "Qual foi a primeira comida que eu fiz pra você?",
+    o: ["Macarrão com molho branco", "Cuscuz", "Hambúrguer", "Sushi"], certa: 1,
+    ok: "Isso! O pior cuscuz da minha vida, completamente solado. E você ficou comigo mesmo assim. 🥲" },
+  { p: "No nosso primeiro encontro, na sua casa, quem cozinhou?",
+    o: ["Eu, claro", "Você", "Augusto", "Pedimos pizza de carne de sol"], certa: 2,
+    ok: "Augusto, o herói do macarrão com molho branco e frango. Devemos muito a esse homem. 🍝" },
+  { p: "Onde a gente ficou pela primeira vez?",
+    o: ["Na universidade", "No São João", "No Burgiff", "Na sua casa"], certa: 2,
+    ok: "Burgiff! A gente se conheceu na universidade, mas foi a pista de dança que uniu. 🪩" },
+  { p: "Qual foi o primeiro filme que a gente assistiu juntos?",
+    o: ["Shrek 2", "O Segredo dos Animais", "Sex and the City", "Shrek 1"], certa: 0,
+    ok: "Shrek 2, o melhor de todos. Começamos com bom gosto. 💚" },
+  { p: "Quem disse \"te amo\" primeiro?",
+    o: ["Você", "Augusto", "Eu (e depois achei que tinha me apressado)", "Ninguém lembra"], certa: 2,
+    ok: "Eu! Fiquei em dúvida se tinha me apressado. Hoje sei que só fui pontual. ❤️" },
+  { p: "Última, valendo tudo: como se fala o nome daquele alimento de pote?",
+    o: ["Iogurte", "Iogute"], certa: 1,
+    ok: "Iogute! Segundo o dicionário oficial de Flozinha, edição Piauí. 🥛" },
+];
+const ERROS = [
+  "Errou, moço! Tenta de novo. 😌",
+  "Errou… mas te perdoo porque você é lindona.",
+  "Oxe! Tava com a cabeça no café da manhã, né?",
+  "Hmm, não. Vai \"tomar uma água\" e volta. 💧",
+  "Negativo, pepita. Mais uma chance.",
+];
+
+// foto opcional: coloque o arquivo na pasta "fotos" com esse nome (se não existir, some sozinha)
+const MESES = [
+  { m: "Abril", e: "💍", t: "Te pedi em namoro. Melhor decisão que tomei em 2026.", f: "abril.jpg" },
+  { m: "Maio", e: "🤔", t: "O mês misterioso. Não lembro muito bem o que rolou, mas foi com você, então com certeza foi bom.", f: "maio.jpg" },
+  { m: "Junho", e: "🎆", t: "Nosso primeiro São João de Campina Grande juntos. Cinco dias de festa e eu só olhando pra você.", f: "junho.jpg" },
+  { m: "Julho", e: "🏠", t: "Mês difícil, mas terminou comigo morando no mesmo condomínio que você. O universo deu um jeito de me colocar mais perto.", f: "julho.jpg" },
+  { m: "Agosto", e: "🌵", t: "Fui pro Piauí conhecer sua família. Eu, que odeio calor, quase morro: 40 graus na sombra. Sobrevivi por amor (e descobri de onde vem tanto \"moço\").", f: "agosto.jpg" },
+  { m: "Setembro", e: "🍍", t: "Mais um mês de rotina boa do seu lado: risada, comida e você dançando do nada.", f: "setembro.jpg" },
+  { m: "Outubro", e: "✊", t: "Lutamos juntos pela virada de Lula. Casal que milita unido permanece unido.", f: "outubro.jpg" },
+  { m: "Novembro", e: "🌸", t: "Cá estamos. Sete meses. (Ou seis, segundo o seu calendário.)", f: "novembro.jpg" },
+];
+
+const MOTIVOS = [
+  "Porque você é a pessoa mais carinhosa que eu conheço.",
+  "Porque você presta atenção em mim, até nos detalhes.",
+  "Porque você é muito, muito engraçada.",
+  "Porque você se preocupa comigo de verdade.",
+  "Porque você cuida de mim.",
+  "Porque você me faz rir todo santo dia.",
+  "Porque nem querendo você consegue me deixar com raiva por muito tempo.",
+  "Porque eu gosto demais de cuidar de você.",
+  "Porque você dança do nada quando tá confortável (e eu amo assistir).",
+  "Porque você fala \"iogute\", eu corrijo só de brincadeira e me acabo de rir toda vez.",
+  "Porque você comeu o pior cuscuz da minha vida e continuou comigo.",
+  "Porque você fica ansiosa até pelo café da manhã, e isso é fofo demais.",
+  "Porque você me deseja \"feliz 6 meses\" todo mês e eu caio na risada toda vez.",
+  "Porque você ama sua família e seus amigos de um jeito lindo.",
+  "Porque você fica uma gatona de marrom. E de qualquer outra cor.",
+  "Porque um dia você ainda vai me deixar espremer um cravo. Eu tenho fé.",
+  "Porque você briga comigo por causa do celular, e tá certa: olhar pra você é melhor.",
+  "Porque você é minha Flozinha. Ponto.",
+];
+
+// músicas: tocam em ordem e recomeçam do início quando a última acaba.
+// Arquivos que não existirem na pasta são pulados sozinhos.
+// Aceita mp3, m4a ou weba: musica.m4a, musica2.weba, musica3.mp3...
+const MUSICAS = ["musica", "musica2", "musica3", "musica4", "musica5"]
+  .flatMap((nome) => ["mp3", "m4a", "weba"].map((ext) => nome + "." + ext));
+
+const NAO_TEXTOS = ["Não", "Tem certeza?", "Oxe!", "Nem tenta", "Moço, para", "Errou o botão", "Quase!", "Desiste, pepita", "Olha o outro botão"];
+const EMOJIS = ["🌸", "💖", "🍍", "🤎", "✨", "💜", "🍓"];
+/* ================================================================= */
+
+const $ = (s) => document.querySelector(s);
+const telas = [...document.querySelectorAll(".tela")];
+const topo = $("#topo");
+let fase = 1;
+
+// progresso
+for (let i = 1; i <= 7; i++) {
+  const f = document.createElement("span");
+  f.className = "flor"; f.textContent = "🌸"; f.title = "Fase " + i;
+  topo.appendChild(f);
+}
+function irPara(n) {
+  fase = n;
+  telas.forEach((t) => t.classList.toggle("ativa", +t.dataset.fase === n));
+  [...topo.children].forEach((f, i) => {
+    f.classList.toggle("feita", i + 1 < n);
+    f.classList.toggle("atual", i + 1 === n);
+  });
+  topo.classList.toggle("visivel", n > 1);
+  window.scrollTo(0, 0);
+  if (n === 4) revelarMeses();
+  if (n === 7) chover(60);
+}
+document.querySelectorAll("[data-proxima]").forEach((b) => b.addEventListener("click", () => irPara(fase + 1)));
+
+// chuva de emojis
+function chover(qtd) {
+  for (let i = 0; i < qtd; i++) {
+    const s = document.createElement("span");
+    s.className = "chuva";
+    s.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+    s.style.left = Math.random() * 100 + "vw";
+    s.style.fontSize = 1 + Math.random() * 1.6 + "rem";
+    s.style.animationDuration = 2.5 + Math.random() * 3 + "s";
+    s.style.animationDelay = Math.random() * 1.2 + "s";
+    document.body.appendChild(s);
+    s.addEventListener("animationend", () => s.remove());
+  }
+}
+
+// música (só aparece se existir musica.mp3 ao lado do index.html)
+const musica = $("#musica"), som = $("#som");
+musica.volume = 0.5;
+let faixa = 0, falhas = 0, querTocar = false;
+function carregarFaixa(i) {
+  faixa = (i + MUSICAS.length) % MUSICAS.length;
+  musica.src = MUSICAS[faixa];
+  if (querTocar) musica.play().catch(() => {});
+}
+musica.addEventListener("canplay", () => { falhas = 0; som.classList.add("disponivel"); });
+musica.addEventListener("ended", () => carregarFaixa(faixa + 1));
+musica.addEventListener("error", () => { if (++falhas < MUSICAS.length) carregarFaixa(faixa + 1); });
+carregarFaixa(0);
+// tenta tocar assim que a página abre; se o navegador bloquear, toca no primeiro toque/clique/tecla
+let silenciada = false;
+function tentarTocar(ev) {
+  if (silenciada || !musica.paused || (ev && ev.target === som)) return;
+  querTocar = true;
+  musica.play().catch(() => {});
+}
+tentarTocar();
+["pointerdown", "keydown", "touchend"].forEach((ev) => document.addEventListener(ev, tentarTocar));
+som.addEventListener("click", () => {
+  if (silenciada || musica.paused) { silenciada = false; querTocar = true; musica.play().catch(() => {}); som.textContent = "🔊"; }
+  else { silenciada = true; querTocar = false; musica.pause(); som.textContent = "🔇"; }
+});
+
+// FASE 1
+$("#envelope").addEventListener("click", () => {
+  querTocar = true;
+  musica.play().catch(() => {});
+  $("#fechado").classList.add("escondido");
+  $("#aberto").classList.remove("escondido");
+  chover(30);
+  setTimeout(() => {
+    $("#titulo-seis").classList.add("riscado");
+    $("#correcao").classList.remove("escondido");
+  }, 2200);
+});
+
+// FASE 2
+function diasJuntos() { return Math.floor((Date.now() - INICIO) / 864e5); }
+function tique() {
+  const s = Math.max(0, Math.floor((Date.now() - INICIO) / 1000));
+  const fmt = (n) => n.toLocaleString("pt-BR");
+  $("#c-dias").textContent = fmt(Math.floor(s / 86400));
+  $("#c-horas").textContent = fmt(Math.floor(s / 3600));
+  $("#c-min").textContent = fmt(Math.floor(s / 60));
+  $("#c-seg").textContent = fmt(s);
+}
+tique(); setInterval(tique, 1000);
+STATS.forEach(([nome, valor]) => {
+  const li = document.createElement("li");
+  const a = document.createElement("span"); a.textContent = nome;
+  const b = document.createElement("b"); b.textContent = valor.replaceAll("{dias}", diasJuntos());
+  li.append(a, b); $("#stats").appendChild(li);
+});
+
+// FASE 3
+let q = 0, errosTotal = 0, ultimoErro = -1;
+function mostrarPergunta() {
+  const item = QUIZ[q];
+  $("#q-placar").textContent = `Pergunta ${q + 1} de ${QUIZ.length}`;
+  $("#q-pergunta").textContent = item.p;
+  $("#q-reacao").textContent = "";
+  $("#q-seguinte").classList.add("escondido");
+  const box = $("#q-opcoes"); box.innerHTML = "";
+  item.o.forEach((texto, i) => {
+    const b = document.createElement("button");
+    b.className = "opcao"; b.textContent = texto;
+    b.addEventListener("click", () => {
+      if (i === item.certa) {
+        b.classList.add("certa");
+        box.querySelectorAll("button").forEach((x) => (x.disabled = true));
+        $("#q-reacao").textContent = item.ok;
+        chover(8);
+        const seg = $("#q-seguinte");
+        seg.textContent = q === QUIZ.length - 1 ? "Ver minha nota →" : "Próxima pergunta →";
+        seg.classList.remove("escondido");
+      } else {
+        errosTotal++;
+        b.classList.add("errada"); b.disabled = true;
+        let r; do { r = Math.floor(Math.random() * ERROS.length); } while (r === ultimoErro);
+        ultimoErro = r;
+        $("#q-reacao").textContent = ERROS[r];
+      }
+    });
+    box.appendChild(b);
+  });
+}
+$("#q-seguinte").addEventListener("click", () => {
+  q++;
+  if (q < QUIZ.length) return mostrarPergunta();
+  $("#quiz").classList.add("escondido");
+  $("#quiz-fim").classList.remove("escondido");
+  $("#quiz-nota").textContent = errosTotal === 0
+    ? "Nota 10, sem errar nenhuma! Você presta mais atenção em mim do que eu no celular."
+    : `Nota 10. (Teve ${errosTotal} ${errosTotal === 1 ? "errinho" : "errinhos"} no caminho, mas o professor é apaixonado pela aluna e arredondou.)`;
+  chover(30);
+});
+mostrarPergunta();
+
+// FASE 4
+MESES.forEach((x) => {
+  const d = document.createElement("div");
+  d.className = "mes"; d.dataset.emoji = x.e;
+  const h = document.createElement("h3"); h.textContent = x.m;
+  const p = document.createElement("p"); p.textContent = x.t;
+  d.append(h, p);
+  if (x.f) {
+    const img = new Image();
+    img.alt = "Foto nossa de " + x.m.toLowerCase();
+    img.onload = () => d.appendChild(img);
+    img.src = "fotos/" + x.f;
+  }
+  $("#linha").appendChild(d);
+});
+function revelarMeses() {
+  document.querySelectorAll(".mes").forEach((m, i) => setTimeout(() => m.classList.add("visto"), 250 + i * 450));
+}
+
+// FASE 5
+let fila = [], vistos = 0;
+const MINIMO = 5;
+$("#m-botao").addEventListener("click", () => {
+  if (!fila.length) fila = MOTIVOS.map((_, i) => i).sort(() => Math.random() - 0.5);
+  const el = $("#motivo");
+  el.textContent = MOTIVOS[fila.pop()];
+  el.classList.remove("troca"); void el.offsetWidth; el.classList.add("troca");
+  vistos++;
+  $("#m-botao").textContent = "Mais um 💘";
+  $("#m-conta").textContent = vistos < MOTIVOS.length
+    ? `${vistos} de ${MOTIVOS.length} motivos (por enquanto)`
+    : "Você viu todos! Mas pode continuar, eu não canso.";
+  if (vistos >= MINIMO) $("#m-proxima").classList.remove("escondido");
+});
+
+// FASE 6
+const nao = $("#nao"), arena = $("#arena");
+let fugas = 0;
+function fugir(ev) {
+  if (nao.dataset.rendido) return;
+  if (ev) ev.preventDefault();
+  fugas++;
+  if (fugas > 12) {
+    nao.dataset.rendido = "1";
+    nao.textContent = "Tá bom, sim 🙄";
+    $("#p-dica").textContent = "Viu? Até o botão desistiu.";
+    return;
+  }
+  const maxX = arena.clientWidth - nao.offsetWidth, maxY = arena.clientHeight - nao.offsetHeight;
+  nao.style.left = Math.max(0, Math.random() * maxX) + "px";
+  nao.style.top = Math.max(0, Math.random() * maxY) + "px";
+  nao.textContent = NAO_TEXTOS[fugas % NAO_TEXTOS.length];
+  $("#sim").style.transform = `scale(${1 + Math.min(fugas, 8) * 0.06})`;
+  $("#p-dica").textContent = "Engraçado, parece que só tem uma resposta possível…";
+}
+nao.addEventListener("pointerenter", fugir);
+nao.addEventListener("pointerdown", fugir);
+nao.addEventListener("focus", () => { if (!nao.dataset.rendido) { fugir(); nao.blur(); } });
+nao.addEventListener("click", () => { if (nao.dataset.rendido) irPara(7); });
+$("#sim").addEventListener("click", () => irPara(7));
+
+// FASE 7
+$("#festa").addEventListener("click", () => chover(70));
+$("#denovo").addEventListener("click", () => location.reload());
+
+// atalho para testes: index.html#4 abre direto na fase 4
+const h = parseInt(location.hash.slice(1));
+if (h >= 1 && h <= 7) irPara(h);
+</script>
+</body>
+</html>
